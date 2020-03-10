@@ -9,7 +9,7 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <style>
-    [v-cloak]{
+    [v-cloak] {
         display: none;
     }
 </style>
@@ -17,31 +17,33 @@
 <body>
     <div id="app">
         <div class="container">
-            <form v-show='!Submitted' class="mt-5">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" v-model="email" class="form-control form-control-lg">
-                </div>
-                <button type="submit" @click.prevent="process" class="btn btn-primary">Submit</button>
-            </form>
-            <h2 v-show='Submitted' v-cloak class="mt-5">Thanks for signing up!</h2>
+            <img :src="imgSrc" :title="imgTitle">
         </div>
     </div>
 </body>
+
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    var apiKey = 'fin7hT4PTDd7mC8SZIm7cVqdfst0Dt4Y8Jzq8wrK';
+    var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
     var vm = new Vue({
         el: "#app",
         data: {
-            email: 'adi@gmail.com',
-            Submitted: false
+             imgSrc: '',
+             imgTitle: ''
         },
         methods: {
-            process: function () {
-                this.Submitted = true;
-            }
         }
     });
+
+    axios.get(url)
+        .then(function (res) {
+            // console.clear();
+            // console.log(res);
+            vm.imgSrc = res.data.url;
+            vm.imgTitle = res.data.title;
+        });
 </script>
 
 </html>
